@@ -6,7 +6,7 @@ RO=(-16,-1,1,16)
 KI=(-17,-16,-15,-1,1,15,16,17)
 S=[s for s in range(128)if not s&0x88]
 MT=99999
-BD=58000
+BD=59000
 N=0
 TT={}
 BM=0
@@ -21,7 +21,7 @@ def ev(b,t):
   c=i&7
   v=V[a]
   if a==1:v+=(r if p>0 else 7-r)*5+(14 if 1<c<6 else-6)
-  elif a<4:v+=(6-abs(3-c)-abs(3-r))*6-(9 if a>1 and r in(0,7)else 0)
+  elif a<4:v+=(6-abs(3-c)-abs(3-r))*7-(9 if a>1 and r in(0,7)else 0)
   elif a==6:v+=abs(2*r-7)+abs(2*c-7)
   s+=v if p>0 else-v
  for d in(-17,-16,-15,15,16,17):
