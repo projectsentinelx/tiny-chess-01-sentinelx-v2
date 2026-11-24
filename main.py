@@ -11,6 +11,7 @@ N=0
 TT={}
 BM=0
 class X(Exception):pass
+
 def ev(b,t):
  s=0
  k=b.index(6*t)
@@ -28,6 +29,7 @@ def ev(b,t):
   g=k+d
   if not g&0x88 and b[g]==t:s+=13*t
  return t*s
+
 def pa(f):
  p=f.split()
  b=[0]*128
@@ -37,10 +39,12 @@ def pa(f):
    if h in'12345678':c+=int(h)
    else:v='pnbrqk'.index(h.lower())+1;b[(7-i)*16+c]=v if h<'a'else-v;c+=1
  return b,1 if p[1]=='w'else-1
+
 def um(s):
  f=(int(s[1])-1)*16+ord(s[0])-97
  g=(int(s[3])-1)*16+ord(s[2])-97
  return f|g<<7|(('nbrq'.index(s[4])+2)<<14 if len(s)>4 else 0)
+
 def ap(b,m,t):
  b=b[:]
  f=m&127
@@ -54,6 +58,7 @@ def ap(b,m,t):
   b[r]=b[r+2 if g>f else r-2]
   b[r+2 if g>f else r-2]=0
  return b,-t
+
 def ge(b,t):
  ms=[]
  for q in S:
@@ -79,6 +84,7 @@ def ge(b,t):
      if v or a==2 or a==6:break
      g+=d
  return ms
+
 def od(b,ms,tt):
  def k(m):
   v=b[m>>7&127]
@@ -87,6 +93,7 @@ def od(b,ms,tt):
   if m>>14:s+=9e4+(m>>14)
   return-s
  return sorted(ms,key=k)
+
 def qs(b,t,al,be,pl):
  global N
  N+=1
@@ -94,7 +101,7 @@ def qs(b,t,al,be,pl):
  s=ev(b,t)
  if s>=be:return be
  if s>al:al=s
- if pl>10:return al
+ if pl>11:return al
  cm=[m for m in ge(b,t)if m>>14 or b[m>>7&127]]
  for m in od(b,cm,0):
   if abs(b[m>>7&127])==6:return MT-pl
@@ -103,6 +110,7 @@ def qs(b,t,al,be,pl):
   if s>=be:return be
   if s>al:al=s
  return al
+
 def ab(b,t,d,al,be,pl):
  global N
  N+=1
@@ -134,6 +142,7 @@ def ab(b,t,d,al,be,pl):
  elif sb<-MT+999:sb-=pl
  TT[ky]=d,sb,0 if al<best<be else(1 if best>=be else 2)
  return best
+
 def rt(b,t,ms,d,pv):
  global BM
  al=best=-MT*2
@@ -143,6 +152,7 @@ def rt(b,t,ms,d,pv):
   if s>best:best=s;BM=m
   if s>al:al=s
  return best
+
 def ch(f,lg):
  global N,BM
  b,t=pa(f)
@@ -158,11 +168,13 @@ def ch(f,lg):
   best=BM
   if sc>MT-999:break
  return D.get(best,lg[0])
+
 def po(U,p,body):
  q=u.Request(U+p,data=json.dumps(body).encode(),headers={'content-type':'application/json'})
  try:
   with u.urlopen(q)as r:return json.load(r)
  except u.HTTPError as e:sys.exit(e.code)
+
 def main():
  U=os.environ.get('MAKEFUN_ENV_URL')or sys.exit('MAKEFUN_ENV_URL not set')
  while 1:
@@ -171,4 +183,5 @@ def main():
   while g['status']=='your_move':g=po(U,'/move',{'game':g['game'],'move':ch(g['fen'],g['legal_moves'])})
   print(g,file=sys.stderr)
  print(g,file=sys.stderr)
+
 if __name__=='__main__':main()
